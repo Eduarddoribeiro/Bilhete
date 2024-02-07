@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-image: url(./fundo\ carro.jpg);
+    }
+
+    .ticket {
+      max-width: 400px;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input,
+    select {
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="datetime-local"] {
+      width: 100%;
+    }
+
+    #codigoPassageiro {
+      font-weight: bold;
+      color: #007bff;
+      display: none;
+      margin-bottom: 15px;
+    }
+
+    button {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #00a854;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ticket">
+    <h2>Bora Simular?</h2>
+
+    <form>
+      <label for="nomePassageiro">Nome do Passageiro:</label>
+      <input type="text" id="nomePassageiro" name="nomePassageiro" required>
+
+      <label for="origem">Origem:</label>
+      <select id="origem" name="origem" required>
+        <option value="" disabled selected>Selecione a origem</option>
+        <option value="Magistério">Magistério</option>
+        <option value="Salinas">Salinas</option>
+        <option value="Pinhal">Pinhal</option>
+        <option value="Quintão">Quintão</option>
+        <option value="Palmares do Sul">Palmares do Sul</option>
+        <option value="Capivari do Sul">Capivari do Sul</option>
+        <option value="Bacupari">Bacupari</option>
+        <option value="Águas Claras">Águas Claras</option>
+        <option value="Alvorada">Alvorada</option>
+        <option value="Gravataí">Gravataí</option>
+        <option value="Sapucaia do Sul">Sapucaia do Sul</option>
+        <option value="Cachoeirinha">Cachoeirinha</option>
+        <option value="Porto Alegre">Porto Alegre</option>
+        <option value="Canoas">Canoas</option>
+        <option value="Viamão">Viamão</option>
+        <option value="Cidreira">Cidreira</option>
+      </select>
+
+      <label for="destino">Destino:</label>
+      <select id="destino" name="destino" required>
+        <option value="" disabled selected>Selecione o destino</option>
+        <option value="Magistério">Magistério</option>
+        <option value="Salinas">Salinas</option>
+        <option value="Pinhal">Pinhal</option>
+        <option value="Quintão">Quintão</option>
+        <option value="Palmares do Sul">Palmares do Sul</option>
+        <option value="Capivari do Sul">Capivari do Sul</option>
+        <option value="Bacupari">Bacupari</option>
+        <option value="Águas Claras">Águas Claras</option>
+        <option value="Alvorada">Alvorada</option>
+        <option value="Gravataí">Gravataí</option>
+        <option value="Sapucaia do Sul">Sapucaia do Sul</option>
+        <option value="Cachoeirinha">Cachoeirinha</option>
+        <option value="Porto Alegre">Porto Alegre</option>
+        <option value="Canoas">Canoas</option>
+        <option value="Viamão">Viamão</option>
+        <option value="Cidreira">Cidreira</option>
+        
+      </select>
+
+      <label for="numeroPassageiros">Número de Passageiros:</label>
+      <select id="numeroPassageiros" name="numeroPassageiros" required>
+        <option value="" disabled selected>Selecione o número de passageiros</option>
+        <option value="1">1 Passageiro</option>
+        <option value="2">2 Passageiros</option>
+        <option value="3">3 Passageiros</option>
+        <option value="4">4 Passageiros</option>
+      </select>
+
+      <label for="codigoPassageiro">Código do Passageiro:</label>
+      <span id="codigoPassageiro"></span>
+
+      <label for="valorViagemPorPassageiro">Rodoviária a Rodoviária:</label>
+      <span id="valorViagemPorPassageiro">R$ 0,00</span>
+
+      <label for="valorTotalViagem">Porta a Porta:</label>
+      <span id="valorTotalViagem">R$ 0,00</span>
+
+      <!-- Botão Emitir Bilhete -->
+      <button type="button" onclick="Avançar()">Avançar</button>
+      
+    </form>
+  </div>
+
+  <script>
+    var proximoCodigo = 1;
+
+    function gerarCodigoPassageiro() {
+      return proximoCodigo++;
+    }
+
+    function calcularValorTotal() {
+      var valorPorPassageiro = 50.00; // Valor padrão
+      var origem = document.getElementById('origem').value;
+      var numeroPassageiros = parseInt(document.getElementById('numeroPassageiros').value);
+
+      // Ajusta os valores específicos conforme a origem
+      switch (origem) {
+        case 'Magistério':
+        case 'Salinas':
+        case 'Pinhal':
+        case 'Cidreira':
+        case 'Viamão':
+          valorPorPassageiro = 60.00;
+          break;
+        case 'Quintão':
+          valorPorPassageiro = 65.00;
+          break;
+        case 'Palmares do Sul':
+          valorPorPassageiro = 75.00;
+          break;
+        case 'Capivari do Sul':
+          valorPorPassageiro = 50.00;
+          break;
+        case 'Bacupari':
+          valorPorPassageiro = 120.00;
+          break;
+        case 'Águas Claras':
+          valorPorPassageiro = 45.00;
+          break;
+        case 'Alvorada':
+          valorPorPassageiro = 60.00;
+          break;
+        case 'Gravataí':
+          valorPorPassageiro = 70.00;
+          break;
+        case 'Sapucaia do Sul':
+          valorPorPassageiro = 80.00;
+          break;
+        case 'Cachoeirinha':
+          valorPorPassageiro = 75.00;
+          break;
+        case 'Porto Alegre':
+          valorPorPassageiro = 55.00;
+          break;
+        case 'Canoas':
+          valorPorPassageiro = 75.00;
+          break;
+      }
+
+      // Calcula o valor do "Rodoviária à Rodoviária"
+      var valorRodoviaria = (numeroPassageiros * valorPorPassageiro).toFixed(2);
+      document.getElementById('valorViagemPorPassageiro').textContent = 'R$ ' + valorRodoviaria;
+
+      // Calcula o valor do "Porta a Porta"
+      var valorPortaPorta = (numeroPassageiros * valorPorPassageiro) + 15.00;
+      document.getElementById('valorTotalViagem').textContent = 'R$ ' + valorPortaPorta.toFixed(2);
+    }
+
+    function emitirBilhete() {
+      var codigoPassageiro = gerarCodigoPassageiro();
+      document.getElementById('codigoPassageiro').textContent = codigoPassageiro;
+
+      calcularValorTotal();
+    }
+  </script>
+
+</body>
+
+</html>
